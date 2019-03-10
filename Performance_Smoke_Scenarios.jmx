@@ -137,7 +137,7 @@
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="SetUp" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="SetUp" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -256,22 +256,17 @@ bsh.shared.rtList_con = rtList_con;
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">3</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true"/>
+        <com.blazemeter.jmeter.controller.ParallelSampler guiclass="com.blazemeter.jmeter.controller.ParallelControllerGui" testclass="com.blazemeter.jmeter.controller.ParallelSampler" testname="bzm - Parallel Controller" enabled="true">
+          <boolProp name="PARENT_SAMPLE">false</boolProp>
+        </com.blazemeter.jmeter.controller.ParallelSampler>
         <hashTree>
-          <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="true">
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="script">props.put(&quot;DONE&quot;, &quot;FALSE&quot;);</stringProp>
-          </BeanShellPreProcessor>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Invoke_Action-without concurrency" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
@@ -323,50 +318,6 @@ log.info(&quot;lenght of the list: &quot;+ len);</stringProp>
             </BeanShellListener>
             <hashTree/>
           </hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get Average RT without concurrency" enabled="true">
-            <stringProp name="BeanShellSampler.query">//long totalRT = ${__property(totalRT)};
-//long totalRequest = ${__property(totalRequest)};
-List rtList = bsh.shared.rtList;
-long totalRT = 0;
-long totalRequest;
-long currentRequestRT = prev.getTime();
-log.info(&quot;response time: &quot;+ currentRequestRT);
-if(currentRequestRT!= null)
-{
-    rtList.add(currentRequestRT);    
-}
-
-int len = rtList.size();
-log.info(&quot;lenght of the list: &quot;+ len);
-totalRequest=len;
-log.info(&quot;Total Requests: &quot;+ totalRequest);
-for(int j=0; j&lt;len; j++){
-    totalRT = totalRT+rtList.get(j);
-}
-
-log.info(&quot;Total response time: &quot;+ totalRT );
-
-long avgRT = totalRT / totalRequest;
-log.info(&quot;HHIIiiiiiiiiiiiii verifyingggggg&quot;);
-vars.put(&quot;average&quot;,String.valueOf(avgRT));
-log.info(&quot;HHIIiiiiiiiiiiiii verifyingggggg&quot;);</stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
-          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get the test status" enabled="true">
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="script">//int activeThreadCount = org.apache.jmeter.threads.JMeterContextService.getNumberOfThreads();
-int activeThreadCount = ctx.getThreadGroup().getNumberOfThreads();
-if (activeThreadCount &lt;= 1)
-{
-props.put(&quot;DONE&quot;, &quot;TRUE&quot;);
-}</stringProp>
-          </BeanShellPostProcessor>
-          <hashTree/>
         </hashTree>
         <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="false">
           <boolProp name="resetInterpreter">false</boolProp>
@@ -388,7 +339,7 @@ long avgRT = totalRT / totalRequest;
 vars.put(&quot;average&quot;,String.valueOf(avgRT));</stringProp>
         </BeanShellPostProcessor>
         <hashTree/>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Test Average Response Time" enabled="true">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Test Average Response Time" enabled="false">
           <stringProp name="IfController.condition">${__BeanShell(props.get(&quot;DONE&quot;)==&quot;TRUE&quot;)}</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
@@ -427,7 +378,7 @@ if(average &gt; 3000){
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Action with concurrency" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create Action with concurrency" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -503,28 +454,23 @@ if(average &gt; 3000){
         </BeanShellAssertion>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Verify Base line RT for Invoke Action with concurrency" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Verify Base line RT for Invoke Action with concurrency" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">3</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true"/>
+        <com.blazemeter.jmeter.controller.ParallelSampler guiclass="com.blazemeter.jmeter.controller.ParallelControllerGui" testclass="com.blazemeter.jmeter.controller.ParallelSampler" testname="bzm - Parallel Controller" enabled="true">
+          <boolProp name="PARENT_SAMPLE">false</boolProp>
+        </com.blazemeter.jmeter.controller.ParallelSampler>
         <hashTree>
-          <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="true">
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="script">props.put(&quot;DONE&quot;, &quot;FALSE&quot;);</stringProp>
-          </BeanShellPreProcessor>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Invoke_Action-with concurrency" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
@@ -576,49 +522,6 @@ log.info(&quot;lenght of the list: &quot;+ len);</stringProp>
             </BeanShellListener>
             <hashTree/>
           </hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get Average RT with concurrency" enabled="true">
-            <stringProp name="BeanShellSampler.query">//long totalRT = ${__property(totalRT)};
-//long totalRequest = ${__property(totalRequest)};
-
-List rtList_con = bsh.shared.rtList_con;
-long totalRT = 0;
-long totalRequest;
-long currentRequestRT = prev.getTime();
-log.info(&quot;response time: &quot;+ currentRequestRT);
-if(currentRequestRT!= null)
-{
-	rtList_con.add(currentRequestRT);	
-}
-
-int len = rtList_con.size();
-log.info(&quot;lenght of the list: &quot;+ len);
-totalRequest=len;
-log.info(&quot;Total Requests: &quot;+ totalRequest);
-for(int j=0; j&lt;len; j++){
-	totalRT = totalRT+rtList_con.get(j);
-}
-
-log.info(&quot;Total response time: &quot;+ totalRT );
-
-long avgRT = totalRT / totalRequest;
-vars.put(&quot;average&quot;,String.valueOf(avgRT));</stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
-          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get the test status" enabled="true">
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="script">//int activeThreadCount = org.apache.jmeter.threads.JMeterContextService.getNumberOfThreads();
-int activeThreadCount = ctx.getThreadGroup().getNumberOfThreads();
-if (activeThreadCount &lt;= 1)
-{
-props.put(&quot;DONE&quot;, &quot;TRUE&quot;);
-}</stringProp>
-          </BeanShellPostProcessor>
-          <hashTree/>
         </hashTree>
         <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="false">
           <boolProp name="resetInterpreter">false</boolProp>
@@ -639,7 +542,7 @@ long avgRT = totalRT / totalRequest;
 vars.put(&quot;average&quot;,String.valueOf(avgRT));</stringProp>
         </BeanShellPostProcessor>
         <hashTree/>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Test Average Response Time" enabled="true">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Test Average Response Time" enabled="false">
           <stringProp name="IfController.condition">${__BeanShell( props.get(&quot;DONE&quot;) != null &amp;&amp; props.get(&quot;DONE&quot;)==&quot;TRUE&quot;)}</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
