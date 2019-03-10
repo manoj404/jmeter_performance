@@ -267,7 +267,7 @@ bsh.shared.rtList_con = rtList_con;
           <boolProp name="PARENT_SAMPLE">false</boolProp>
         </com.blazemeter.jmeter.controller.ParallelSampler>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Invoke_Action-without concurrency" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TC_01_Invoke_Action-without concurrency" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
@@ -471,7 +471,7 @@ if(average &gt; 3000){
           <boolProp name="PARENT_SAMPLE">false</boolProp>
         </com.blazemeter.jmeter.controller.ParallelSampler>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Invoke_Action-with concurrency" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TC_02_Invoke_Action-with concurrency" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
