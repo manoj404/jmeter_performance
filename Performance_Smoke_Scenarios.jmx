@@ -757,7 +757,7 @@ if(average &gt; 3000){
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">${__P(prometheusUrl,prometheus-a.gw-rtbeta-ue1-b.adobe-runtime.com)} </stringProp>
+          <stringProp name="HTTPSampler.domain">${__P(prometheusUrl,prometheus-a.gw-rtbeta-ue1-b.adobe-runtime.com)}</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
